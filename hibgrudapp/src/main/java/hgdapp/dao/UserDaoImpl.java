@@ -1,6 +1,6 @@
 package hgdapp.dao;
 
-import hgdapp.models.User;
+import hgdapp.model.User;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;

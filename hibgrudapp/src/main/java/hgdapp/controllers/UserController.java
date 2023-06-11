@@ -1,7 +1,7 @@
 package hgdapp.controllers;
 
 import hgdapp.dao.UserDao;
-import hgdapp.models.User;
+import hgdapp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,6 +67,6 @@ public class UserController {
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
         userDAO.delete(id);
-        return "redirect:/people";
+        return "redirect:/users";
     }
 }

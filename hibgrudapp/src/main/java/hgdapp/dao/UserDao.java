@@ -1,6 +1,6 @@
 package hgdapp.dao;
 
-import hgdapp.models.User;
+import hgdapp.model.User;
 
 import java.util.List;
 

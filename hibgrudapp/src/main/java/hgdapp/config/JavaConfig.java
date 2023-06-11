@@ -94,7 +94,7 @@ public class JavaConfig implements WebMvcConfigurer {
     LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emf =
                 new LocalContainerEntityManagerFactoryBean();
-        emf.setPackagesToScan("hgdapp.models");
+        emf.setPackagesToScan("hgdapp.model");
         emf.setDataSource(dataSource());
         emf.setJpaVendorAdapter(createJpaVendorAdapter());
         emf.setJpaProperties(hibernateProperties());

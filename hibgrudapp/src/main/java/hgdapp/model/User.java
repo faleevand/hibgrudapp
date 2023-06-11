@@ -1,6 +1,8 @@
-package hgdapp.models;
+package hgdapp.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -11,16 +13,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty
+    @NotEmpty(message = "One more time")
     @Column(name = "name")
     private String name;
 
-    @NotEmpty
+    @Min(value = 0, message = "One more time")
+    @Max(value = 130, message = "One more time")
     @Column(name = "age")
     private int age;
 
     @Column(name = "surname")
-    @NotEmpty
+    @NotEmpty(message = "One more time")
     private String surname;
 
     public User() {
