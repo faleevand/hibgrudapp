@@ -2,6 +2,7 @@ package hgdapp.controllers;
 
 import hgdapp.dao.UserDao;
 import hgdapp.model.User;
+import hgdapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,22 +15,22 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class UserController {
 
-    private final UserDao userDAO;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserDao userDAO) {
-        this.userDAO = userDAO;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("users", userDAO.index());
-        return "users/index";
+    public String allusers(Model model) {
+        model.addAttribute("users", userService.allusers());
+        return "users/allusers";
     }
 
     @GetMapping("users/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userDAO.show(id));
+        model.addAttribute("user", userService.show(id));
         return "users/show";
     }
 
@@ -39,34 +40,34 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public String create(@ModelAttribute("user") @Valid User user,
+    public String create(@Valid @ModelAttribute("user")  User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "users/new";
 
-        userDAO.save(user);
+        userService.save(user);
         return "redirect:/";
     }
 
     @GetMapping("users/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userDAO.show(id));
+        model.addAttribute("user", userService.show(id));
         return "users/edit";
     }
 
     @PatchMapping("users/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+    public String update( @Valid @ModelAttribute("user") User user, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
             return "users/edit";
 
-        userDAO.update(id, user);
+        userService.update(id, user);
         return "redirect:/";
     }
 
     @DeleteMapping("users/{id}")
     public String delete(@PathVariable("id") int id) {
-        userDAO.delete(id);
+        userService.delete(id);
         return "redirect:/";
     }
 }
