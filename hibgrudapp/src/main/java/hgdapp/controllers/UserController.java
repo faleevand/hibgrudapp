@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/")
 public class UserController {
 
     private final UserDao userDAO;
@@ -27,46 +27,46 @@ public class UserController {
         return "users/index";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("users/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userDAO.show(id));
         return "users/show";
     }
 
-    @GetMapping("/new")
+    @GetMapping("users/new")
     public String newPerson(@ModelAttribute("user") User user) {
         return "users/new";
     }
 
-    @PostMapping()
+    @PostMapping("/users")
     public String create(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "users/new";
 
         userDAO.save(user);
-        return "redirect:/users";
+        return "redirect:/";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("users/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userDAO.show(id));
         return "users/edit";
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("users/{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
             return "users/edit";
 
         userDAO.update(id, user);
-        return "redirect:/users";
+        return "redirect:/";
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("users/{id}")
     public String delete(@PathVariable("id") int id) {
         userDAO.delete(id);
-        return "redirect:/users";
+        return "redirect:/";
     }
 }
