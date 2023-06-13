@@ -1,18 +1,18 @@
 package hgdapp.controllers;
 
-import hgdapp.dao.UserDao;
 import hgdapp.model.User;
 import hgdapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/")
 public class UserController {
 
     private final UserService userService;
@@ -22,24 +22,24 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @RequestMapping()
     public String allusers(Model model) {
         model.addAttribute("users", userService.allusers());
         return "users/allusers";
     }
 
-    @GetMapping("users/{id}")
+    @RequestMapping("users/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.show(id));
         return "users/show";
     }
 
-    @GetMapping("users/new")
+    @RequestMapping("users/new")
     public String newPerson(@ModelAttribute("user") User user) {
         return "users/new";
     }
 
-    @PostMapping("/users")
+    @RequestMapping("/users")
     public String create(@Valid @ModelAttribute("user")  User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
@@ -49,13 +49,13 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("users/{id}/edit")
+    @RequestMapping("users/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userService.show(id));
         return "users/edit";
     }
 
-    @PatchMapping("users/{id}")
+    @RequestMapping("users/{id}/update")
     public String update( @Valid @ModelAttribute("user") User user, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
@@ -65,7 +65,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    @DeleteMapping("users/{id}")
+    @RequestMapping("users/{id}/delete")
     public String delete(@PathVariable("id") int id) {
         userService.delete(id);
         return "redirect:/";
